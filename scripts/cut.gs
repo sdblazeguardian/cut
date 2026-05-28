@@ -76,20 +76,69 @@ function getWorkouts() {
 }
 
 function addDaily(data) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(DAILY_SHEET);
 
-  sheet.appendRow([
+  const sheet = SpreadsheetApp
+    .getActiveSpreadsheet()
+    .getSheetByName(DAILY_SHEET);
+
+  const rows = sheet.getDataRange().getValues();
+
+  const headers = rows[0];
+
+  const dateCol = headers.indexOf('date');
+  const userCol = headers.indexOf('user');
+
+  const targetDate = data.date;
+  const targetUser = data.user;
+
+  let existingRowIndex = -1;
+
+  for (let i = 1; i < rows.length; i++) {
+
+    const row = rows[i];
+
+    let rowDate = row[dateCol];
+
+    if (rowDate instanceof Date) {
+      rowDate = Utilities.formatDate(
+        rowDate,
+        Session.getScriptTimeZone(),
+        'yyyy-MM-dd'
+      );
+    }
+
+    const rowUser = row[userCol];
+
+    if (rowDate === targetDate && rowUser === targetUser) {
+      existingRowIndex = i + 1;
+      break;
+    }
+  }
+
+  const newRow = [
     data.date,
     data.user,
-    data.distance_miles,
-    data.steps,
-    data.protein_grams,
-    data.bodyweight_lbs,
-    data.vitamin,
-    data.protein_shake,
-    data.lift,
-    data.softball
-  ]);
+    data.distance_miles || '',
+    data.steps || '',
+    data.protein_grams || '',
+    data.bodyweight_lbs || '',
+    data.vitamin === 'true',
+    data.protein_shake === 'true',
+    data.lift === 'true',
+    data.softball === 'true'
+  ];
+
+  if (existingRowIndex > 0) {
+
+    sheet
+      .getRange(existingRowIndex, 1, 1, newRow.length)
+      .setValues([newRow]);
+
+  } else {
+
+    sheet.appendRow(newRow);
+
+  }
 
   return jsonResponse({
     success: true
