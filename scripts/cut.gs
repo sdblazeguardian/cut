@@ -92,6 +92,7 @@ function addDaily(data) {
   const targetUser = data.user;
 
   let existingRowIndex = -1;
+  let existingRow = null;
 
   for (let i = 1; i < rows.length; i++) {
 
@@ -102,31 +103,63 @@ function addDaily(data) {
     if (rowDate instanceof Date) {
       rowDate = Utilities.formatDate(
         rowDate,
-        Session.getScriptTimeZone(),
+        'GMT',
         'yyyy-MM-dd'
       );
+    } else {
+      rowDate = String(rowDate).split('T')[0];
     }
 
     const rowUser = row[userCol];
 
     if (rowDate === targetDate && rowUser === targetUser) {
       existingRowIndex = i + 1;
+      existingRow = row;
       break;
     }
   }
 
-  const newRow = [
-    data.date,
-    data.user,
-    data.distance_miles || '',
-    data.steps || '',
-    data.protein_grams || '',
-    data.bodyweight_lbs || '',
-    data.vitamin === 'true',
-    data.protein_shake === 'true',
-    data.lift === 'true',
-    data.softball === 'true'
-  ];
+  const newRow = headers.map((header, index) => {
+
+    const existingValue = existingRow
+      ? existingRow[index]
+      : '';
+
+    if (header === 'date') {
+      return targetDate;
+    }
+
+    if (header === 'user') {
+      return targetUser;
+    }
+
+    /* CHECKBOXES */
+
+    if (
+      header === 'vitamin' ||
+      header === 'protein_shake' ||
+      header === 'lift' ||
+      header === 'softball'
+    ) {
+
+      if (header in data) {
+        return data[header] === 'true';
+      }
+
+      return existingValue || false;
+    }
+
+    /* NORMAL FIELDS */
+
+    if (
+      header in data &&
+      data[header] !== ''
+    ) {
+      return data[header];
+    }
+
+    return existingValue;
+  });
 
   if (existingRowIndex > 0) {
 

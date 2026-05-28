@@ -1,4 +1,4 @@
-const API_URL = 'https://script.google.com/macros/s/AKfycbzK26I6Dk7_125oiZQJsl9bGDfZ8tRBtZyIPBERDM9glXxq7jxA1lwj18Dgf38JSl7XFA/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwpi6cDkAaCv6kmqYDICnFJ4fHVcm_PWaoNvTBYOcJUkyILRUsMTPciV0dtskipN6_Tww/exec';
 
 function showTab(tabId) {
   document.querySelectorAll('.tab-content')
@@ -15,9 +15,58 @@ document.getElementById('dailyForm')
 
     e.preventDefault();
 
-    const formData = new FormData(e.target);
+    const form = e.target;
+
+    const formData = new FormData();
+
+    /* TEXT/NUMBER FIELDS */
 
     formData.append('action', 'addDaily');
+
+    formData.append('date', form.date.value);
+    formData.append('user', form.user.value);
+
+    formData.append(
+      'distance_miles',
+      form.distance_miles.value
+    );
+
+    formData.append(
+      'steps',
+      form.steps.value
+    );
+
+    formData.append(
+      'protein_grams',
+      form.protein_grams.value
+    );
+
+    formData.append(
+      'bodyweight_lbs',
+      form.bodyweight_lbs.value
+    );
+
+    /* CHECKBOXES */
+
+    formData.append(
+      'vitamin',
+      form.vitamin.checked
+    );
+
+    formData.append(
+      'protein_shake',
+      form.protein_shake.checked
+    );
+
+    formData.append(
+      'lift',
+      form.lift.checked
+    );
+
+    formData.append(
+      'softball',
+      form.softball.checked
+    );
 
     const response = await fetch(API_URL, {
       method: 'POST',
@@ -26,11 +75,11 @@ document.getElementById('dailyForm')
 
     const result = await response.json();
 
-    alert('Daily saved');
-
     console.log(result);
 
-    e.target.reset();
+    alert('Daily saved');
+
+    form.reset();
 
     loadQuickView();
 });
