@@ -81,7 +81,7 @@ async function loadQuickView() {
     div.innerHTML = `
       <hr>
       <strong>${entry.user}</strong><br>
-      Date: ${entry.date}<br>
+      Date: ${new Date(entry.date).toLocaleDateString()}<br>
       Steps: ${entry.steps}<br>
       Protein: ${entry.protein_grams}g<br>
       Weight: ${entry.bodyweight_lbs} lbs
