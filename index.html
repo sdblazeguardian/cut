@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fitness Tracker</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Fitness Tracker</h1>
+
+    <div class="tabs">
+      <button onclick="showTab('dailies')">Dailies</button>
+      <button onclick="showTab('workout')">Workout</button>
+      <button onclick="showTab('quickview')">Quick View</button>
+    </div>
+  </header>
+
+  <!-- DAILIES -->
+
+  <section id="dailies" class="tab-content">
+
+    <h2>Dailies</h2>
+
+    <form id="dailyForm">
+
+      <input type="date" name="date" required>
+
+      <select name="user" required>
+        <option value="">Select User</option>
+        <option value="Siddhant">Siddhant</option>
+        <option value="JE">JE</option>
+      </select>
+
+      <input type="number" step="0.1" name="distance_miles" placeholder="Distance (miles)">
+      <input type="number" name="steps" placeholder="Steps">
+      <input type="number" name="protein_grams" placeholder="Protein (g)">
+      <input type="number" step="0.1" name="bodyweight_lbs" placeholder="Bodyweight (lbs)">
+
+      <label>
+        <input type="checkbox" name="vitamin">
+        Vitamin
+      </label>
+
+      <label>
+        <input type="checkbox" name="protein_shake">
+        Protein Shake
+      </label>
+
+      <label>
+        <input type="checkbox" name="lift">
+        Lift
+      </label>
+
+      <label>
+        <input type="checkbox" name="softball">
+        Softball
+      </label>
+
+      <button type="submit">Save Daily</button>
+
+    </form>
+
+  </section>
+
+  <!-- WORKOUT -->
+
+  <section id="workout" class="tab-content hidden">
+
+    <h2>Workout</h2>
+
+    <form id="workoutForm">
+
+      <input type="date" name="date" required>
+
+      <select name="user" required>
+        <option value="">Select User</option>
+        <option value="Siddhant">Siddhant</option>
+        <option value="JE">JE</option>
+      </select>
+
+      <input type="text" name="exercise" placeholder="Exercise" required>
+
+      <input type="number" step="0.1" name="weight_lbs" placeholder="Weight (lbs)">
+      <input type="number" name="reps" placeholder="Reps">
+      <input type="number" step="0.1" name="distance_miles" placeholder="Distance (miles)">
+      <input type="number" name="duration_minutes" placeholder="Duration (minutes)">
+      <input type="number" name="calories" placeholder="Calories">
+
+      <button type="submit">Save Workout</button>
+
+    </form>
+
+  </section>
+
+  <!-- QUICK VIEW -->
+
+  <section id="quickview" class="tab-content hidden">
+
+    <h2>Quick View</h2>
+
+    <div id="quickViewContent">
+      Loading...
+    </div>
+
+  </section>
+
+  <script src="app.js"></script>
+
+</body>
+</html>
