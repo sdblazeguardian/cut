@@ -1,4 +1,4 @@
-const API_URL = 'https://script.google.com/macros/s/AKfycbwnP0cVoIeHiFYDOfoxTWmwL0iz4GUlcBzgljaXJMiDj1meNHGHeuJu1Chh8p6Gcni1MA/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzK26I6Dk7_125oiZQJsl9bGDfZ8tRBtZyIPBERDM9glXxq7jxA1lwj18Dgf38JSl7XFA/exec';
 
 function showTab(tabId) {
   document.querySelectorAll('.tab-content')
